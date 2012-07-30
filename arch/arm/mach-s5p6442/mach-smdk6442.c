@@ -94,18 +94,8 @@ static void __init smdk6442_machine_init(void)
 	platform_add_devices(smdk6442_devices, ARRAY_SIZE(smdk6442_devices));
 }
 
-static void __init apollo_fixup(struct tag *tags, char **cmdline,
-	struct meminfo *mi)
-{
-	mi->nr_banks = 1;
-	mi->bank[0].start = PHYS_OFFSET;
-	mi->bank[0].size = 256 * SZ_1M;
-}
-
 MACHINE_START(SMDK6442, "SMDK6442")
 	.atag_offset	= 0x100,
-
-	.fixup		= apollo_fixup,
 
 	.init_irq	= s5p6442_init_irq,
 	.handle_irq	= vic_handle_irq,
