@@ -39,7 +39,6 @@
 #define IRQ_UART0 		S5P_IRQ_VIC1(10)
 #define IRQ_UART1 		S5P_IRQ_VIC1(11)
 #define IRQ_UART2 		S5P_IRQ_VIC1(12)
-//#define IRQ_UART3		S5P_IRQ_VIC1(12)
 #define IRQ_SPI0 		S5P_IRQ_VIC1(15)
 #define IRQ_IIC 		S5P_IRQ_VIC1(19)
 #define IRQ_IIC1 		S5P_IRQ_VIC1(20)
@@ -82,6 +81,14 @@
 
 #define S5P_EINT_BASE1		(S5P_IRQ_VIC0(0))
 #define S5P_EINT_BASE2		(S5P_IRQ_EINT_BASE)
+
+/* Compatibility defines */
+
+#define IRQ_LCD_FIFO		IRQ_LCD0
+#define IRQ_LCD_VSYNC		IRQ_LCD1
+#define IRQ_LCD_SYSTEM		IRQ_LCD2
+#define IRQ_TC			IRQ_PENDN
+
 
 /* Set the default NR_IRQS */
 
