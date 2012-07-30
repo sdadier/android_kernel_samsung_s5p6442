@@ -1,4 +1,4 @@
-/* linux/arch/arm/mach-s5p64x0/mach-apollo.c
+/* linux/arch/arm/mach-s5p6442/mach-apollo.c
  *
  * Copyright (c) 2009-2010 Samsung Electronics Co., Ltd.
  *		http://www.samsung.com
@@ -146,41 +146,41 @@ static struct s3c_sdhci_platdata apollo_hsmmc2_pdata __initdata = {
 	.cd_type	= S3C_SDHCI_CD_NONE,
 };
 
-void s5p6440_i2c0_cfg_gpio(struct platform_device *dev)
+void s5p6442_i2c0_cfg_gpio(struct platform_device *dev)
 {
-	s3c_gpio_cfgall_range(S5P6440_GPB(5), 2,
-			      S3C_GPIO_SFN(2), S3C_GPIO_PULL_UP);
+	//s3c_gpio_cfgall_range(S5P6442_GPB(5), 2,
+	//		      S3C_GPIO_SFN(2), S3C_GPIO_PULL_UP);
 }
 
-void s5p6440_i2c1_cfg_gpio(struct platform_device *dev)
+void s5p6442_i2c1_cfg_gpio(struct platform_device *dev)
 {
-	s3c_gpio_cfgall_range(S5P6440_GPR(9), 2,
-			      S3C_GPIO_SFN(6), S3C_GPIO_PULL_UP);
+	//s3c_gpio_cfgall_range(S5P6442_GPR(9), 2,
+	//		      S3C_GPIO_SFN(6), S3C_GPIO_PULL_UP);
 }	
 
-static struct s3c2410_platform_i2c s5p6440_i2c0_data __initdata = {
+static struct s3c2410_platform_i2c s5p6442_i2c0_data __initdata = {
 	.flags		= 0,
 	.slave_addr	= 0x10,
 	.frequency	= 100*1000,
 	.sda_delay	= 100,
-	.cfg_gpio	= s5p6440_i2c0_cfg_gpio,
+	.cfg_gpio	= s5p6442_i2c0_cfg_gpio,
 };
 
-static struct s3c2410_platform_i2c s5p6440_i2c1_data __initdata = {
+static struct s3c2410_platform_i2c s5p6442_i2c1_data __initdata = {
 	.flags		= 0,
 	.bus_num	= 1,
 	.slave_addr	= 0x10,
 	.frequency	= 100*1000,
 	.sda_delay	= 100,
-	.cfg_gpio	= s5p6440_i2c1_cfg_gpio,
+	.cfg_gpio	= s5p6442_i2c1_cfg_gpio,
 };
 
-static struct i2c_board_info smdk6440_i2c_devs0[] __initdata = {
+static struct i2c_board_info apollo_i2c_devs0[] __initdata = {
 	{ I2C_BOARD_INFO("24c08", 0x57), },
 	{ I2C_BOARD_INFO("wm8580", 0x1a), },
 };
 
-static struct i2c_board_info smdk6440_i2c_devs1[] __initdata = {
+static struct i2c_board_info apollo_i2c_devs1[] __initdata = {
 	/* To be populated */
 };
 
@@ -192,7 +192,8 @@ static struct i2c_board_info smdk6440_i2c_devs1[] __initdata = {
 
 static void __init apollo_map_io(void)
 {
-	s5p64x0_init_io(NULL, 0);
+	s5p_init_io(NULL, 0, S5P_VA_CHIPID);
+//	s5p_init_io(NULL, 0);
 	s3c24xx_init_clocks(12000000);
 	s3c24xx_init_uarts(apollo_uartcfgs, ARRAY_SIZE(apollo_uartcfgs));
 	s5p_set_timer_source(S5P_PWM3, S5P_PWM4);
@@ -212,12 +213,12 @@ static void __init apollo_machine_init(void)
 	
 	s3c24xx_ts_set_platdata(NULL);
 
-	s3c_i2c0_set_platdata(&s5p6440_i2c0_data);
-	s3c_i2c1_set_platdata(&s5p6440_i2c1_data);
-	i2c_register_board_info(0, smdk6440_i2c_devs0,
-			ARRAY_SIZE(smdk6440_i2c_devs0));
-	i2c_register_board_info(1, smdk6440_i2c_devs1,
-			ARRAY_SIZE(smdk6440_i2c_devs1));
+	s3c_i2c0_set_platdata(&s5p6442_i2c0_data);
+	s3c_i2c1_set_platdata(&s5p6442_i2c1_data);
+	i2c_register_board_info(0, apollo_i2c_devs0,
+			ARRAY_SIZE(apollo_i2c_devs0));
+	i2c_register_board_info(1, apollo_i2c_devs1,
+			ARRAY_SIZE(apollo_i2c_devs1));
 
 	//samsung_bl_set(&apollo_bl_gpio_info, &apollo_bl_data);
 	//s5p6440_set_lcd_interface();
@@ -242,5 +243,5 @@ MACHINE_START(APOLLO, "APOLLO")
 	.map_io		= apollo_map_io,
 	.init_machine	= apollo_machine_init,
 	.timer		= &s5p_timer,
-	.restart	= s5p64x0_restart,
+	.restart	= s5p6442_restart,
 MACHINE_END
