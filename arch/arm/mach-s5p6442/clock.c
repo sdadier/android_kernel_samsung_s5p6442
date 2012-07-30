@@ -29,6 +29,8 @@
 #include <plat/clock-clksrc.h>
 #include <plat/s5p6442.h>
 
+#define GET_DIV(clk, field) ((((clk) & field##_MASK) >> field##_SHIFT) + 1)
+
 static struct clksrc_clk clk_mout_apll = {
 	.clk	= {
 		.name		= "mout_apll",
@@ -289,6 +291,8 @@ void __init_or_cpufreq s5p6442_setup_clocks(void)
 	unsigned long epll;
 	unsigned int ptr;
 
+	u32 clkdiv0;
+
 	printk(KERN_DEBUG "%s: registering clocks\n", __func__);
 
 	xtal = clk_get_rate(&clk_xtal);
@@ -299,7 +303,10 @@ void __init_or_cpufreq s5p6442_setup_clocks(void)
 	mpll = s5p_get_pll45xx(xtal, __raw_readl(S5P_MPLL_CON), pll_4502);
 	epll = s5p_get_pll45xx(xtal, __raw_readl(S5P_EPLL_CON), __raw_readl(S5P_EPLL_CON_K));
 
-	printk(KERN_INFO "S5P6442: PLL settings, A=%ld, M=%ld, E=%ld",
+	clkdiv0 = __raw_readl(S5P_CLK_DIV0);
+	printk(KERN_INFO "%s: clkdiv0 = %08x\n", __func__, clkdiv0);
+
+	printk(KERN_INFO "S5P6442: PLL settings, A=%ld, M=%ld, E=%ld\n",
 			apll, mpll, epll);
 
 	clk_fout_apll.rate = apll;
@@ -319,13 +326,15 @@ void __init_or_cpufreq s5p6442_setup_clocks(void)
 	pclkd0_clk = clk_get(NULL, "pclkd0");
 	BUG_ON(IS_ERR(pclkd0_clk));
 
-	pclkd0 = clk_get_rate(pclkd0_clk);
+	//pclkd0 = clk_get_rate(pclkd0_clk); <- why does this code give me 166MHz but the code below gives me the correct 83MHz?
+	pclkd0 = hclkd0 / GET_DIV(clkdiv0, S5P_CLKDIV0_P0CLK);
 	clk_put(pclkd0_clk);
 
 	pclkd1_clk = clk_get(NULL, "pclkd1");
 	BUG_ON(IS_ERR(pclkd1_clk));
 
-	pclkd1 = clk_get_rate(pclkd1_clk);
+	//pclkd1 = clk_get_rate(pclkd1_clk);
+	pclkd1 = hclkd1 / GET_DIV(clkdiv0, S5P_CLKDIV0_P1CLK);
 	clk_put(pclkd1_clk);
 
 	printk(KERN_INFO "S5P6442: HCLKD0=%ld, HCLKD1=%ld, PCLKD0=%ld, PCLKD1=%ld\n",
