@@ -131,6 +131,14 @@ static unsigned long s3c2410_gettimeoffset (void)
 static irqreturn_t
 s3c2410_timer_interrupt(int irq, void *dev_id)
 {
+	#ifdef CPU_S5P6442
+		volatile unsigned int temp_cstat;
+
+		temp_cstat = s5p64xx_systimer_read(S3C_SYSTIMER_INT_CSTAT);
+		temp_cstat |= S3C_SYSTIMER_INT_STATS;
+
+		s5p64xx_systimer_write(S3C_SYSTIMER_INT_CSTAT, temp_cstat);
+	#endif
 	timer_tick();
 	return IRQ_HANDLED;
 }
