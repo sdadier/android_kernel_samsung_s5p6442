@@ -30,6 +30,7 @@
 #include <plat/devs.h>
 #include <plat/cpu.h>
 #include <plat/iic.h>
+#include <plat/s5p-time.h>
 
 #include <asm/hardware/vic.h>
 
@@ -87,6 +88,7 @@ static void __init apollo_map_io(void)
 	s5p_init_io(NULL, 0, S5P_VA_CHIPID);
 	s3c24xx_init_clocks(12000000);
 	s3c24xx_init_uarts(apollo_uartcfgs, ARRAY_SIZE(apollo_uartcfgs));
+	s5p_set_timer_source(S5P_PWM3, S5P_PWM4);
 }
 
 static void __init apollo_machine_init(void)
@@ -114,6 +116,6 @@ MACHINE_START(APOLLO, "APOLLO")
 	.handle_irq	= vic_handle_irq,
 	.map_io		= apollo_map_io,
 	.init_machine	= apollo_machine_init,
-	.timer		= &s3c24xx_timer,
+	.timer		= &s5p_timer,
 MACHINE_END
 
