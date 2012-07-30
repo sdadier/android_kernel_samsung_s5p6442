@@ -62,6 +62,12 @@
 #define S5P64X0_EINT0MASK		(S5P_VA_GPIO + EINT0MASK_OFFSET)
 #define S5P64X0_EINT0PEND		(S5P_VA_GPIO + EINT0PEND_OFFSET)
 
+/* compatibility for plat-s5p/irq-pm.c */
+#define S5P_EINT_CON(x)			(S5P64X0_EINT0CON0 + ((x) * 0x4))
+#define S5P_EINT_FLTCON(x)		(S5P64X0_EINT0FLTCON0 + ((x) * 0x4))
+#define S5P_EINT_MASK(x)		(S5P64X0_EINT0MASK + ((x) * 0x4))
+#define S5P_EINT_PEND(x)		(S5P64X0_EINT0PEND + ((x) * 0x4))
+
 #define S5P64X0_SLPEN			(S5P_VA_GPIO + 0x930)
 #define S5P64X0_SLPEN_USE_xSLP		(1 << 0)
 
