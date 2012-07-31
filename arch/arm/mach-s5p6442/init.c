@@ -28,5 +28,5 @@ void __init s5p6442_init_uarts(struct s3c2410_uartcfg *cfg, int no)
 		s5p_uart_resources[uart].resources->end = S5P_PA_UART(uart) + S5P_SZ_UART;
 	}
 
-	s3c24xx_init_uartdevs("s3c6400-uart", s5p_uart_resources, cfg, no);
+	s3c24xx_init_uartdevs("s5pv210-uart", s5p_uart_resources, cfg, no);
 }

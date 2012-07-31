@@ -1538,7 +1538,7 @@ static struct s3c24xx_serial_drv_data s3c2440_serial_drv_data = {
 
 #if defined(CONFIG_CPU_S3C6400) || defined(CONFIG_CPU_S3C6410) || \
 	defined(CONFIG_CPU_S5P6440) || defined(CONFIG_CPU_S5P6450) || \
-	defined(CONFIG_CPU_S5PC100) || defined(CONFIG_CPU_S5P6442)
+	defined(CONFIG_CPU_S5PC100)
 static struct s3c24xx_serial_drv_data s3c6400_serial_drv_data = {
 	.info = &(struct s3c24xx_uart_info) {
 		.name		= "Samsung S3C6400 UART",
@@ -1566,7 +1566,7 @@ static struct s3c24xx_serial_drv_data s3c6400_serial_drv_data = {
 #define S3C6400_SERIAL_DRV_DATA (kernel_ulong_t)NULL
 #endif
 
-#ifdef CONFIG_CPU_S5PV210
+#if defined(CONFIG_CPU_S5PV210) || defined(CONFIG_CPU_S5P6442)
 static struct s3c24xx_serial_drv_data s5pv210_serial_drv_data = {
 	.info = &(struct s3c24xx_uart_info) {
 		.name		= "Samsung S5PV210 UART",
