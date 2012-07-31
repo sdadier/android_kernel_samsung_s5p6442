@@ -19,7 +19,7 @@
 #include <mach/map.h>
 
 /* uart registration process */
-void __init s5p6442_common_init_uarts(struct s3c2410_uartcfg *cfg, int no)
+void __init s5p6442_init_uarts(struct s3c2410_uartcfg *cfg, int no)
 {
 	int uart;
 
