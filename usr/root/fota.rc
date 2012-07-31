@@ -48,6 +48,7 @@ loglevel 3
     mkdir /data 0771 system system
     mkdir /cache 0770 system cache
     mkdir /data
+    mkdir /data/property 0700 root root
 
     mount rfs /dev/block/stl6 /system check=no
 
