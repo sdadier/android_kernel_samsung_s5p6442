@@ -17,6 +17,11 @@
 #include <linux/serial_core.h>
 #include <linux/i2c.h>
 
+#include <linux/mtd/mtd.h>
+#include <linux/mtd/onenand.h>
+#include <linux/mtd/partitions.h>
+#include <linux/mtd/bml.h>
+
 #include <asm/mach/arch.h>
 #include <asm/mach/map.h>
 #include <asm/setup.h>
@@ -72,22 +77,81 @@ static struct s3c2410_uartcfg apollo_uartcfgs[] __initdata = {
 	},
 };
 
+static struct mtd_partition apollo_onenand_partitions[] = {
+	{
+		.name		= "kernel",
+		.offset		= (40 * SZ_256K),
+		.size		= (30 * SZ_256K),
+	},
+	{
+		.name		= "system",
+		.offset		= MTDPART_OFS_APPEND,
+		.size		= (880 * SZ_256K),
+	},
+	{
+		.name		= "data",
+		.offset		= MTDPART_OFS_APPEND,
+		.size		= (810 * SZ_256K),
+	},
+	{
+		.name		= "cache",
+		.offset		= MTDPART_OFS_APPEND,
+		.size		= (152 * SZ_256K),
+	},
+};
+
+static struct onenand_platform_data apollo_onenand_pdata = {
+	.parts			= apollo_onenand_partitions,
+	.nr_parts		= ARRAY_SIZE(apollo_onenand_partitions),
+};
+
+static struct platform_device apollo_onenand_device = {
+	.name			= "mtd-onenand",
+	.id			= -1,
+	.dev			= {
+				.platform_data = &apollo_onenand_pdata,
+	},
+};
+
+static struct bml_partition apollo_bml_partitions[] = {
+	{
+		.name		= "kernel",
+		.offset		= (40 * SZ_256K),
+	}
+};
+
+static struct bml_platform_data apollo_bml_pdata = {
+	.parts			= apollo_bml_partitions,
+	.nr_parts		= ARRAY_SIZE(apollo_bml_partitions),
+};
+
+static struct platform_device apollo_bml_device = {
+	.name			= "mtd-bml",
+	.id			= -1,
+	.dev			= {
+				.platform_data = &apollo_bml_pdata,
+	},
+};
+
 static struct platform_device *apollo_devices[] __initdata = {
 	&s3c_device_i2c0,
 	&samsung_asoc_dma,
 	&s5p6442_device_iis0,
 	&s3c_device_wdt,
+	&s5p_device_onenand,
+	&apollo_onenand_device,
+	&apollo_bml_device,
 };
 
 static struct i2c_board_info apollo_i2c_devs0[] __initdata = {
-	{ I2C_BOARD_INFO("wm8580", 0x1b), },
+	{ I2C_BOARD_INFO("wm8994", 0x1b), },
 };
 
 static void __init apollo_map_io(void)
 {
 	s5p_init_io(NULL, 0, S5P_VA_CHIPID);
 	s3c24xx_init_clocks(12000000);
-	s3c24xx_init_uarts(apollo_uartcfgs, ARRAY_SIZE(apollo_uartcfgs));
+	//s3c24xx_init_uarts(apollo_uartcfgs, ARRAY_SIZE(apollo_uartcfgs));
 	s5p_set_timer_source(S5P_PWM3, S5P_PWM4);
 }
 
@@ -96,6 +160,8 @@ static void __init apollo_machine_init(void)
 	s3c_i2c0_set_platdata(NULL);
 	i2c_register_board_info(0, apollo_i2c_devs0,
 			ARRAY_SIZE(apollo_i2c_devs0));
+	s3c_set_platdata(&apollo_onenand_pdata, sizeof(apollo_onenand_pdata),
+			&s5p_device_onenand);
 	platform_add_devices(apollo_devices, ARRAY_SIZE(apollo_devices));
 }
 
