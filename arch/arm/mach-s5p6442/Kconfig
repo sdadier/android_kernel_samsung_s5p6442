@@ -38,6 +38,7 @@ config MACH_APOLLO
 	select SAMSUNG_DEV_BACKLIGHT
 	select SAMSUNG_DEV_PWM
 	select SAMSUNG_DEV_TS
+	select NEED_MACH_MEMORY_H
 	help
 	  Machine support for the Samsung Galaxy Apollo
 

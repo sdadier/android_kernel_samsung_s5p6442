@@ -102,9 +102,12 @@ static void __init apollo_machine_init(void)
 static void __init apollo_fixup(struct tag *tags, char **cmdline,
 	struct meminfo *mi)
 {
-	mi->nr_banks = 1;
+	mi->nr_banks = 2;
 	mi->bank[0].start = PHYS_OFFSET;
-	mi->bank[0].size = 256 * SZ_1M;
+	mi->bank[0].size = PHYS_SIZE_DDR;
+
+	mi->bank[1].start = PHYS_OFFSET_ONEDRAM;
+	mi->bank[1].size = PHYS_SIZE_ONEDRAM;
 }
 
 MACHINE_START(APOLLO, "APOLLO")
