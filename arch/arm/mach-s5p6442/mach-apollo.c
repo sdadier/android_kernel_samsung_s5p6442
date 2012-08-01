@@ -36,6 +36,7 @@
 #include <plat/cpu.h>
 #include <plat/iic.h>
 #include <plat/s5p-time.h>
+#include <plat/sdhci.h>
 
 #include <asm/hardware/vic.h>
 
@@ -100,6 +101,24 @@ static struct mtd_partition apollo_onenand_partitions[] = {
 	},
 };
 
+static struct s3c_sdhci_platdata apollo_hsmmc0_pdata __initdata = {
+	.cd_type		= S3C_SDHCI_CD_INTERNAL,
+	.clk_type		= S3C_SDHCI_CLK_DIV_EXTERNAL,
+	.max_width		= 8,
+};
+
+static struct s3c_sdhci_platdata apollo_hsmmc1_pdata __initdata = {
+	.cd_type		= S3C_SDHCI_CD_INTERNAL,
+	.clk_type		= S3C_SDHCI_CLK_DIV_EXTERNAL,
+	.max_width		= 8,
+};
+
+static struct s3c_sdhci_platdata apollo_hsmmc2_pdata __initdata = {
+	.cd_type		= S3C_SDHCI_CD_INTERNAL,
+	.clk_type		= S3C_SDHCI_CLK_DIV_EXTERNAL,
+	.max_width		= 8,
+};
+
 static struct onenand_platform_data apollo_onenand_pdata = {
 	.parts			= apollo_onenand_partitions,
 	.nr_parts		= ARRAY_SIZE(apollo_onenand_partitions),
@@ -138,6 +157,11 @@ static struct platform_device *apollo_devices[] __initdata = {
 	&samsung_asoc_dma,
 	&s5p6442_device_iis0,
 	&s3c_device_wdt,
+
+	&s3c_device_hsmmc0,
+	&s3c_device_hsmmc1,		// SDIO for WLAN
+	&s3c_device_hsmmc2,
+
 	&s3c_device_onenand,
 	&apollo_onenand_device,
 	&apollo_bml_device,
@@ -163,6 +187,10 @@ static void __init apollo_machine_init(void)
 	s3c_set_platdata(&apollo_onenand_pdata, sizeof(apollo_onenand_pdata),
 			&s3c_device_onenand);
 	platform_add_devices(apollo_devices, ARRAY_SIZE(apollo_devices));
+
+	s3c_sdhci1_set_platdata(&apollo_hsmmc0_pdata);
+	s3c_sdhci1_set_platdata(&apollo_hsmmc1_pdata);
+	s3c_sdhci2_set_platdata(&apollo_hsmmc2_pdata);
 }
 
 static void __init apollo_fixup(struct tag *tags, char **cmdline,
