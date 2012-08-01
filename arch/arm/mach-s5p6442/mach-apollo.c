@@ -103,19 +103,19 @@ static struct mtd_partition apollo_onenand_partitions[] = {
 
 static struct s3c_sdhci_platdata apollo_hsmmc0_pdata __initdata = {
 	.cd_type		= S3C_SDHCI_CD_INTERNAL,
-	.clk_type		= S3C_SDHCI_CLK_DIV_EXTERNAL,
+	.clk_type		= S3C_SDHCI_CLK_DIV_INTERNAL,
 	.max_width		= 8,
 };
 
 static struct s3c_sdhci_platdata apollo_hsmmc1_pdata __initdata = {
 	.cd_type		= S3C_SDHCI_CD_INTERNAL,
-	.clk_type		= S3C_SDHCI_CLK_DIV_EXTERNAL,
+	.clk_type		= S3C_SDHCI_CLK_DIV_INTERNAL,
 	.max_width		= 8,
 };
 
 static struct s3c_sdhci_platdata apollo_hsmmc2_pdata __initdata = {
 	.cd_type		= S3C_SDHCI_CD_INTERNAL,
-	.clk_type		= S3C_SDHCI_CLK_DIV_EXTERNAL,
+	.clk_type		= S3C_SDHCI_CLK_DIV_INTERNAL,
 	.max_width		= 8,
 };
 

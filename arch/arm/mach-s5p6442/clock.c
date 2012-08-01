@@ -199,6 +199,11 @@ int s5p6442_clk_ip0_ctrl(struct clk *clk, int enable)
 	return s5p_gatectrl(S5P_CLKGATE_IP0, clk, enable);
 }
 
+int s5p6442_clk_ip2_ctrl(struct clk *clk, int enable)
+{
+	return s5p_gatectrl(S5P_CLKGATE_IP2, clk, enable);
+}
+
 int s5p6442_clk_ip3_ctrl(struct clk *clk, int enable)
 {
 	return s5p_gatectrl(S5P_CLKGATE_IP3, clk, enable);
@@ -396,6 +401,24 @@ static struct clk init_clocks[] = {
 		.parent		= &clk_pclkd1,
 		.enable		= s5p6442_clk_ip3_ctrl,
 		.ctrlbit	= (1<<23),
+	}, {
+		.name		= "hsmmc",
+		.id		= 0,
+		.parent		= &clk_hclkd1,
+		.enable		= s5p6442_clk_ip2_ctrl,
+		.ctrlbit	= (1<<16),
+	}, {
+		.name		= "hsmmc",
+		.id		= 1,
+		.parent		= &clk_hclkd1,
+		.enable		= s5p6442_clk_ip2_ctrl,
+		.ctrlbit	= (1<<17),
+	}, {
+		.name		= "hsmmc",
+		.id		= 2,
+		.parent		= &clk_hclkd1,
+		.enable		= s5p6442_clk_ip2_ctrl,
+		.ctrlbit	= (1<<18),
 	},
 };
 
