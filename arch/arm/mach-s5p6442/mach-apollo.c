@@ -138,7 +138,7 @@ static struct platform_device *apollo_devices[] __initdata = {
 	&samsung_asoc_dma,
 	&s5p6442_device_iis0,
 	&s3c_device_wdt,
-	&s5p_device_onenand,
+	&s3c_device_onenand,
 	&apollo_onenand_device,
 	&apollo_bml_device,
 };
@@ -161,7 +161,7 @@ static void __init apollo_machine_init(void)
 	i2c_register_board_info(0, apollo_i2c_devs0,
 			ARRAY_SIZE(apollo_i2c_devs0));
 	s3c_set_platdata(&apollo_onenand_pdata, sizeof(apollo_onenand_pdata),
-			&s5p_device_onenand);
+			&s3c_device_onenand);
 	platform_add_devices(apollo_devices, ARRAY_SIZE(apollo_devices));
 }
 
