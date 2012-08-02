@@ -37,6 +37,7 @@
 #include <plat/iic.h>
 #include <plat/s5p-time.h>
 #include <plat/sdhci.h>
+#include <plat/onenand-core.h>
 
 #include <asm/hardware/vic.h>
 
@@ -176,6 +177,7 @@ static void __init apollo_map_io(void)
 	s5p_init_io(NULL, 0, S5P_VA_CHIPID);
 	s3c24xx_init_clocks(12000000);
 	s3c24xx_init_uarts(apollo_uartcfgs, ARRAY_SIZE(apollo_uartcfgs));
+	s3c_onenand_setname("s5pc100-onenand");
 	s5p_set_timer_source(S5P_PWM3, S5P_PWM4);
 }
 
