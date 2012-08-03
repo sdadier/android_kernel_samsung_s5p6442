@@ -163,7 +163,7 @@ static struct platform_device *apollo_devices[] __initdata = {
 	&s3c_device_hsmmc1,		// SDIO for WLAN
 	&s3c_device_hsmmc2,
 
-	&s3c_device_onenand,
+	&s5p_device_onenand,
 	&apollo_onenand_device,
 	&apollo_bml_device,
 };
@@ -177,7 +177,6 @@ static void __init apollo_map_io(void)
 	s5p_init_io(NULL, 0, S5P_VA_CHIPID);
 	s3c24xx_init_clocks(12000000);
 	s3c24xx_init_uarts(apollo_uartcfgs, ARRAY_SIZE(apollo_uartcfgs));
-	s3c_onenand_setname("s5pc100-onenand");
 	s5p_set_timer_source(S5P_PWM3, S5P_PWM4);
 }
 
@@ -187,7 +186,7 @@ static void __init apollo_machine_init(void)
 	i2c_register_board_info(0, apollo_i2c_devs0,
 			ARRAY_SIZE(apollo_i2c_devs0));
 	s3c_set_platdata(&apollo_onenand_pdata, sizeof(apollo_onenand_pdata),
-			&s3c_device_onenand);
+			&s5p_device_onenand);
 	platform_add_devices(apollo_devices, ARRAY_SIZE(apollo_devices));
 
 	s3c_sdhci1_set_platdata(&apollo_hsmmc0_pdata);
