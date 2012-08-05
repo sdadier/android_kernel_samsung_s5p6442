@@ -26,6 +26,7 @@
 #include <asm/mach/map.h>
 #include <asm/setup.h>
 #include <asm/mach-types.h>
+#include <asm/hardware/vic.h>
 
 #include <mach/map.h>
 #include <mach/regs-clock.h>
@@ -39,7 +40,7 @@
 #include <plat/sdhci.h>
 #include <plat/onenand-core.h>
 
-#include <asm/hardware/vic.h>
+#include <media/s5p_fimc.h>
 
 /* Following are default values for UCON, ULCON and UFCON UART registers */
 #define apollo_UCON_DEFAULT	(S3C2410_UCON_TXILEVEL |	\
@@ -162,6 +163,12 @@ static struct platform_device *apollo_devices[] __initdata = {
 	&s3c_device_hsmmc0,
 	&s3c_device_hsmmc1,		// SDIO for WLAN
 	&s3c_device_hsmmc2,
+
+	&s5p_device_fimc0,
+	&s5p_device_fimc1,
+	&s5p_device_fimc2,
+	&s5p_device_jpeg,
+	&s3c_device_fb,
 
 	&s5p_device_onenand,
 	&apollo_onenand_device,
