@@ -88,17 +88,17 @@ static struct mtd_partition apollo_onenand_partitions[] = {
 	{
 		.name		= "system",
 		.offset		= MTDPART_OFS_APPEND,
-		.size		= (880 * SZ_256K),
+		.size		= (CONFIG_APOLLO_MTD_SYSTEM_SZ * SZ_256K),
 	},
 	{
 		.name		= "data",
 		.offset		= MTDPART_OFS_APPEND,
-		.size		= (810 * SZ_256K),
+		.size		= (CONFIG_APOLLO_MTD_DATA_SZ * SZ_256K),
 	},
 	{
 		.name		= "cache",
 		.offset		= MTDPART_OFS_APPEND,
-		.size		= (152 * SZ_256K),
+		.size		= (CONFIG_APOLLO_MTD_CACHE_SZ * SZ_256K),
 	},
 };
 

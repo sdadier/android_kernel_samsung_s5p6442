@@ -49,4 +49,25 @@ config MACH_APOLLO
 	help
 	  Machine support for the Samsung Galaxy Apollo
 
+if MACH_APOLLO
+menu "APOLLO options"
+
+	config APOLLO_MTD_SYSTEM_SZ
+		int "System partition size (256KB blocks)"
+		depends on MTD
+		default "880"
+
+	config APOLLO_MTD_DATA_SZ
+		int "Data partition size (256KB blocks)"
+		depends on MTD
+		default "810"
+
+	config APOLLO_MTD_CACHE_SZ
+		int "Cache partition size (256KB blocks)"
+		depends on MTD
+		default "152"
+
+endmenu
+endif
+
 endif
