@@ -401,25 +401,38 @@ static struct clk init_clocks[] = {
 		.parent		= &clk_pclkd1,
 		.enable		= s5p6442_clk_ip3_ctrl,
 		.ctrlbit	= (1<<23),
-	}, {
-		.name		= "hsmmc",
-		.id		= 0,
-		.parent		= &clk_hclkd1,
-		.enable		= s5p6442_clk_ip2_ctrl,
-		.ctrlbit	= (1<<16),
-	}, {
-		.name		= "hsmmc",
-		.id		= 1,
-		.parent		= &clk_hclkd1,
-		.enable		= s5p6442_clk_ip2_ctrl,
-		.ctrlbit	= (1<<17),
-	}, {
-		.name		= "hsmmc",
-		.id		= 2,
-		.parent		= &clk_hclkd1,
-		.enable		= s5p6442_clk_ip2_ctrl,
-		.ctrlbit	= (1<<18),
 	},
+};
+
+
+static struct clk clk_hsmmc0 = {
+	.name		= "hsmmc",
+	.devname	= "s3c-sdhci.0",
+	.parent		= &clk_hclkd1,
+	.enable		= s5p6442_clk_ip2_ctrl,
+	.ctrlbit	= (1<<16),
+};
+
+static struct clk clk_hsmmc1 = {
+	.name		= "hsmmc",
+	.devname	= "s3c-sdhci.1",
+	.parent		= &clk_hclkd1,
+	.enable		= s5p6442_clk_ip2_ctrl,
+	.ctrlbit	= (1<<17),
+};
+
+static struct clk clk_hsmmc2 = {
+	.name		= "hsmmc",
+	.devname	= "s3c-sdhci.2",
+	.parent		= &clk_hclkd1,
+	.enable		= s5p6442_clk_ip2_ctrl,
+	.ctrlbit	= (1<<18),
+};
+
+static struct clk *clk_cdev[] = {
+	&clk_hsmmc0,
+	&clk_hsmmc1,
+	&clk_hsmmc2,
 };
 
 static struct clk *clks[] __initdata = {
@@ -438,8 +451,22 @@ static struct clk *clks[] __initdata = {
 	&clk_pclkd1,
 };
 
+static struct clk_lookup s5p6442_clk_lookup[] = {
+	CLKDEV_INIT("s3c-sdhci.0", "mmc_busclk.0", &clk_hsmmc0),
+	CLKDEV_INIT("s3c-sdhci.1", "mmc_busclk.0", &clk_hsmmc1),
+	CLKDEV_INIT("s3c-sdhci.2", "mmc_busclk.0", &clk_hsmmc2),
+	CLKDEV_INIT("s3c-sdhci.0", "mmc_busclk.1", &clk_hsmmc0),
+	CLKDEV_INIT("s3c-sdhci.1", "mmc_busclk.1", &clk_hsmmc1),
+	CLKDEV_INIT("s3c-sdhci.2", "mmc_busclk.1", &clk_hsmmc2),
+	CLKDEV_INIT("s3c-sdhci.0", "mmc_busclk.2", &clk_hsmmc0),
+	CLKDEV_INIT("s3c-sdhci.1", "mmc_busclk.2", &clk_hsmmc1),
+	CLKDEV_INIT("s3c-sdhci.2", "mmc_busclk.2", &clk_hsmmc2),
+};
+
 void __init s5p6442_register_clocks(void)
 {
+	int ptr;
+
 	s3c24xx_register_clocks(clks, ARRAY_SIZE(clks));
 
 	s3c_register_clksrc(clksrcs, ARRAY_SIZE(clksrcs));
@@ -447,6 +474,12 @@ void __init s5p6442_register_clocks(void)
 
 	s3c_register_clocks(init_clocks_off, ARRAY_SIZE(init_clocks_off));
 	s3c_disable_clocks(init_clocks_off, ARRAY_SIZE(init_clocks_off));
+
+	clkdev_add_table(s5p6442_clk_lookup, ARRAY_SIZE(s5p6442_clk_lookup));
+
+	s3c24xx_register_clocks(clk_cdev, ARRAY_SIZE(clk_cdev));
+	for (ptr = 0; ptr < ARRAY_SIZE(clk_cdev); ptr++)
+		s3c_disable_clocks(clk_cdev[ptr], 1);
 
 	s3c_pwmclk_init();
 }
