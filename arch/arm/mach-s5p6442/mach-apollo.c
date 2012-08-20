@@ -159,6 +159,7 @@ static struct platform_device *apollo_devices[] __initdata = {
 	&samsung_asoc_dma,
 	&s5p6442_device_iis0,
 	&s3c_device_wdt,
+	&s3c_device_rtc,
 
 	&s3c_device_hsmmc0,
 	&s3c_device_hsmmc1,		// SDIO for WLAN

@@ -366,29 +366,34 @@ static struct clk init_clocks_off[] = {
 
 static struct clk init_clocks[] = {
 	{
+		.name		= "rtc",
+		.parent		= &clk_pclkd1,
+		.enable		= s5p6442_clk_ip3_ctrl,
+		.ctrlbit	= (1 << 15),
+	}, {
 		.name		= "systimer",
 		.id		= -1,
 		.parent		= &clk_pclkd1,
 		.enable		= s5p6442_clk_ip3_ctrl,
-		.ctrlbit	= (1<<16),
+		.ctrlbit	= (1 << 16),
 	}, {
 		.name		= "uart",
 		.id		= 0,
 		.parent		= &clk_pclkd1,
 		.enable		= s5p6442_clk_ip3_ctrl,
-		.ctrlbit	= (1<<17),
+		.ctrlbit	= (1 << 17),
 	}, {
 		.name		= "uart",
 		.id		= 1,
 		.parent		= &clk_pclkd1,
 		.enable		= s5p6442_clk_ip3_ctrl,
-		.ctrlbit	= (1<<18),
+		.ctrlbit	= (1 << 18),
 	}, {
 		.name		= "uart",
 		.id		= 2,
 		.parent		= &clk_pclkd1,
 		.enable		= s5p6442_clk_ip3_ctrl,
-		.ctrlbit	= (1<<19),
+		.ctrlbit	= (1 << 19),
 	}, {
 		.name		= "watchdog",
 		.id		= -1,
@@ -400,7 +405,7 @@ static struct clk init_clocks[] = {
 		.id		= -1,
 		.parent		= &clk_pclkd1,
 		.enable		= s5p6442_clk_ip3_ctrl,
-		.ctrlbit	= (1<<23),
+		.ctrlbit	= (1 << 23),
 	},
 };
 
