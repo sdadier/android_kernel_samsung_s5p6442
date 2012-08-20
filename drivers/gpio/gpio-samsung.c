@@ -2773,6 +2773,21 @@ static __init int samsung_gpiolib_init(void)
 #if defined(CONFIG_CPU_S5PC100) && defined(CONFIG_S5P_GPIO_INT)
 		s5p_register_gpioint_bank(IRQ_GPIOINT, 0, S5P_GPIOINT_GROUP_MAXNR);
 #endif
+	} else if (soc_is_s5p6442()) {
+		group = 0;
+		chip = s5pv210_gpios_4bit;
+		nr_chips = ARRAY_SIZE(s5pv210_gpios_4bit);
+
+		for (i = 0; i < nr_chips; i++, chip++) {
+			if (!chip->config) {
+				chip->config = &samsung_gpio_cfgs[3];
+				chip->group = group++;
+			}
+		}
+		samsung_gpiolib_add_4bit_chips(s5pv210_gpios_4bit, nr_chips, S5P_VA_GPIO);
+#if defined(CONFIG_CPU_S5P6442) && defined(CONFIG_S5P_GPIO_INT)
+		s5p_register_gpioint_bank(IRQ_GPIOINT, 0, S5P_GPIOINT_GROUP_MAXNR);
+#endif
 	} else if (soc_is_s5pv210()) {
 		group = 0;
 		chip = s5pv210_gpios_4bit;

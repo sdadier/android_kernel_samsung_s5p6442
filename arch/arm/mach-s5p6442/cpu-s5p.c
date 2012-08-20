@@ -28,8 +28,8 @@ static const char name_s5p6442[] = "S5P6442";
 
 static struct cpu_table cpu_ids[] __initdata = {
 	{
-		.idcode		= 0x36442000,
-		.idmask		= 0xfffff000,
+		.idcode		= S5P6442_CPU_ID,
+		.idmask		= S5P64XX_CPU_MASK,
 		.map_io		= s5p6442_map_io,
 		.init_clocks	= s5p6442_init_clocks,
 		.init_uarts	= s5p6442_init_uarts,
@@ -74,13 +74,13 @@ static struct map_desc s5p_iodesc[] __initdata = {
 void __init s5p_init_io(struct map_desc *mach_desc,
 			int size, void __iomem *cpuid_addr)
 {
-	unsigned long idcode;
+	unsigned long samsung_cpu_id;
 
 	/* initialize the io descriptors we need for initialization */
 	iotable_init(s5p_iodesc, ARRAY_SIZE(s5p_iodesc));
 	if (mach_desc)
 		iotable_init(mach_desc, size);
 
-	idcode = __raw_readl(cpuid_addr);
-	s3c_init_cpu(idcode, cpu_ids, ARRAY_SIZE(cpu_ids));
+	samsung_cpu_id = __raw_readl(cpuid_addr);
+	s3c_init_cpu(samsung_cpu_id, cpu_ids, ARRAY_SIZE(cpu_ids));
 }

@@ -28,6 +28,7 @@ extern unsigned long samsung_cpu_id;
 #define S3C64XX_CPU_MASK	0xFFFFF000
 
 #define S5P6440_CPU_ID		0x56440000
+#define S5P6442_CPU_ID		0x36442000
 #define S5P6450_CPU_ID		0x36450000
 #define S5P64XX_CPU_MASK	0xFFFFF000
 
@@ -54,6 +55,7 @@ static inline int is_samsung_##name(void)	\
 IS_SAMSUNG_CPU(s3c24xx, S3C24XX_CPU_ID, S3C24XX_CPU_MASK)
 IS_SAMSUNG_CPU(s3c6400, S3C6400_CPU_ID, S3C64XX_CPU_MASK)
 IS_SAMSUNG_CPU(s3c6410, S3C6410_CPU_ID, S3C64XX_CPU_MASK)
+IS_SAMSUNG_CPU(s5p6442, S5P6442_CPU_ID, S5P64XX_CPU_MASK)
 IS_SAMSUNG_CPU(s5p6440, S5P6440_CPU_ID, S5P64XX_CPU_MASK)
 IS_SAMSUNG_CPU(s5p6450, S5P6450_CPU_ID, S5P64XX_CPU_MASK)
 IS_SAMSUNG_CPU(s5pc100, S5PC100_CPU_ID, S5PC100_CPU_MASK)
@@ -82,6 +84,13 @@ IS_SAMSUNG_CPU(exynos5250, EXYNOS5250_SOC_ID, EXYNOS5_SOC_MASK)
 # define soc_is_s5p6440()	is_samsung_s5p6440()
 #else
 # define soc_is_s5p6440()	0
+#endif
+
+#if defined(CONFIG_CPU_S5P6442)
+# define soc_is_s5p6442()	1
+//# define soc_is_s5p6442()	is_samsung_s5p6442()
+#else
+# define soc_is_s5p6442()	0
 #endif
 
 #if defined(CONFIG_CPU_S5P6450)
