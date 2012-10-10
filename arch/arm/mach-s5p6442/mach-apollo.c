@@ -80,29 +80,6 @@ static struct s3c2410_uartcfg apollo_uartcfgs[] __initdata = {
 	},
 };
 
-static struct mtd_partition apollo_onenand_partitions[] = {
-	{
-		.name		= "kernel",
-		.offset		= (40 * SZ_256K),
-		.size		= (30 * SZ_256K),
-	},
-	{
-		.name		= "system",
-		.offset		= MTDPART_OFS_APPEND,
-		.size		= (CONFIG_APOLLO_MTD_SYSTEM_SZ * SZ_256K),
-	},
-	{
-		.name		= "data",
-		.offset		= MTDPART_OFS_APPEND,
-		.size		= (CONFIG_APOLLO_MTD_DATA_SZ * SZ_256K),
-	},
-	{
-		.name		= "cache",
-		.offset		= MTDPART_OFS_APPEND,
-		.size		= (CONFIG_APOLLO_MTD_CACHE_SZ * SZ_256K),
-	},
-};
-
 static struct s3c_sdhci_platdata apollo_hsmmc0_pdata __initdata = {
 	.cd_type		= S3C_SDHCI_CD_INTERNAL,
 	.clk_type		= S3C_SDHCI_CLK_DIV_INTERNAL,
@@ -119,19 +96,6 @@ static struct s3c_sdhci_platdata apollo_hsmmc2_pdata __initdata = {
 	.cd_type		= S3C_SDHCI_CD_INTERNAL,
 	.clk_type		= S3C_SDHCI_CLK_DIV_INTERNAL,
 	.max_width		= 8,
-};
-
-static struct onenand_platform_data apollo_onenand_pdata = {
-	.parts			= apollo_onenand_partitions,
-	.nr_parts		= ARRAY_SIZE(apollo_onenand_partitions),
-};
-
-static struct platform_device apollo_onenand_device = {
-	.name			= "mtd-onenand",
-	.id			= -1,
-	.dev			= {
-				.platform_data = &apollo_onenand_pdata,
-	},
 };
 
 static struct bml_partition apollo_bml_partitions[] = {
@@ -172,7 +136,6 @@ static struct platform_device *apollo_devices[] __initdata = {
 	&s3c_device_fb,
 
 	&s5p_device_onenand,
-	&apollo_onenand_device,
 	&apollo_bml_device,
 };
 
@@ -193,8 +156,6 @@ static void __init apollo_machine_init(void)
 	s3c_i2c0_set_platdata(NULL);
 	i2c_register_board_info(0, apollo_i2c_devs0,
 			ARRAY_SIZE(apollo_i2c_devs0));
-	s3c_set_platdata(&apollo_onenand_pdata, sizeof(apollo_onenand_pdata),
-			&s5p_device_onenand);
 	platform_add_devices(apollo_devices, ARRAY_SIZE(apollo_devices));
 
 	s3c_sdhci1_set_platdata(&apollo_hsmmc0_pdata);
